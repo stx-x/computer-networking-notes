@@ -70,6 +70,9 @@ export default defineConfig({
         }
       }
     },
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/stx-x/computer-networking-notes' }
+    ],
     docFooter: { prev: '上一节', next: '下一节' },
     darkModeSwitchLabel: '主题',
     sidebarMenuLabel: '目录',
