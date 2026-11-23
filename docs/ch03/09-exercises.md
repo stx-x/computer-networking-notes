@@ -136,8 +136,11 @@ outline: [2, 3]
 
 | **公式** | **说明** |
 | --- | --- |
-| 停等协议的发送方利用率 | RTT 的指数加权移动平均 |
-| RTT 偏差 | 重传超时间隔 |
-| 未确认数据量的上界 | "LastByteRcvd" - "LastByteRead" |
-| 接收窗口 | TCP 的平均发送速率 |
-| TCP Reno 的宏观吞吐量 |  |
+| $U_{\text{sender}} = \frac{\frac{L}{R}}{\text{RTT} + \frac{L}{R}}$ | 停等协议的发送方利用率 |
+| $\text{EstimatedRTT} = (1 - \alpha) \text{EstimatedRTT} + \alpha \text{SampleRTT}$ | RTT 的指数加权移动平均 |
+| $\text{DevRTT} = (1 - \beta) \text{DevRTT} + \beta \lvert \text{SampleRTT} - \text{EstimatedRTT} \rvert$ | RTT 偏差 |
+| $\text{TimeoutInterval} = \text{EstimatedRTT} + 4 \text{DevRTT}$ | 重传超时间隔 |
+| $\text{LastByteSent} - \text{LastByteAcked} \le \text{min}(\text{cwnd}, \text{rwnd})$ | 未确认数据量的上界 |
+| $\text{rwnd} = \text{RcvBuffer} - [\text{LastByteRcvd} - \text{LastByteRead}]$ | 接收窗口 |
+| $\text{发送速率} \approx \frac{\text{cwnd}}{\text{RTT}}$ | TCP 的平均发送速率 |
+| $\text{平均吞吐量} = 0.75 \frac{W}{\text{RTT}}$ | TCP Reno 的宏观吞吐量 |

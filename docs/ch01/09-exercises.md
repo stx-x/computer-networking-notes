@@ -131,8 +131,13 @@ outline: [2, 3]
 
 | **公式** | **说明** |
 | --- | --- |
-| 传输时延 | 传播时延 |
-| 节点时延 | 存储转发端到端时延 |
-| 端到端时延 | 排队时延的关键参数，应 $\le 1$ |
-| 两链路网络的吞吐量 | 多链路网络的吞吐量 |
-| 文件传送的平均吞吐量 | 大文件传送时间估计 |
+| $d_{\text{trans}} = \frac{L}{R}$ | 传输时延 |
+| $d_{\text{prop}} = \frac{d}{s}$ | 传播时延 |
+| $d_{\text{nodal}} = d_{\text{proc}} + d_{\text{queue}} + d_{\text{trans}} + d_{\text{prop}}$ | 节点时延 |
+| $d_{\text{端到端}} = N \frac{L}{R}$ | 存储转发端到端时延 |
+| $d_{\text{end-end}} = N(d_{\text{proc}} + d_{\text{trans}} + d_{\text{prop}})$ | 端到端时延 |
+| $\text{流量强度} = L \frac{a}{R}$ | 排队时延的关键参数，应 $\le 1$ |
+| $\text{吞吐量} = \text{min} \{{R_{s}, R_{c} \} \}}$ | 两链路网络的吞吐量 |
+| $\text{吞吐量} = \text{min} \{{R_{1}, \cdots, R_{N} \} \}}$ | 多链路网络的吞吐量 |
+| $\text{平均吞吐量} = \frac{F}{T}$ | 文件传送的平均吞吐量 |
+| $\text{传送时间} \approx \frac{F}{\text{min}} \{{R_{s}, R_{c} \} \}}$ | 大文件传送时间估计 |

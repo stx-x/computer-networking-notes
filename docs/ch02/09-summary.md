@@ -94,5 +94,7 @@ outline: [2, 3]
 
 | **关系式** | **说明** |
 | --- | --- |
-| 非持续连接下请求一个对象 | HTTP/1.1 浏览器的典型做法 |
-| 首次连接（0-RTT 用于恢复） | DNS 资源记录四元组 |
+| $\text{HTTP 响应时间} \approx 2 \text{RTT} + \text{传输时间}$ | 非持续连接下请求一个对象 |
+| $\text{并行连接数} \le 6$ | HTTP/1.1 浏览器的典型做法 |
+| $\text{QUIC 建立时间} \approx 1 \text{RTT}$ | 首次连接（0-RTT 用于恢复） |
+| $(\text{Name}, \text{Value}, \text{Type}, \text{TTL})$ | DNS 资源记录四元组 |

@@ -191,6 +191,13 @@ def inline(s: str, ctx: dict) -> str:
 
 
 
+
+def untypst_string(raw: str) -> str:
+    """还原 Typst 字符串里的转义。"""
+    return (raw.replace("\\n", "\n").replace("\\t", "\t")
+               .replace('\\"', '"').replace("\\\\", "\\"))
+
+
 def attr_text(s: str) -> str:
     """把图注/标题压成纯文本并转义，供 Vue 组件属性使用。"""
     s = re.sub(r"\$([^$]*)\$", lambda m: m.group(1), s)
@@ -320,68 +327,50 @@ def render_fig(args: str, body: str, ctx: dict) -> str:
 # ------------------------------------------------------------------ 表格
 
 def parse_table(args: str, ctx: dict):
-    """从 table(...) 的参数串里解析列数与单元格。"""
-    mcols = re.search(r"columns:\s*\(", args)
+    """解析 table(...) 的参数，返回 (列数, [(行, 是否表头)])。"""
     ncol = 1
     rest = args
+    mcols = re.search(r"columns:\s*\(", args)
     if mcols:
         k = find_match(args, mcols.end() - 1, "(", ")")
         cols = args[mcols.end():k]
         ncol = len(split_top(cols)) or 1
-        rest = args[k + 1:]
-    cells, header_mode = [], False
-    i, n = 0, len(rest)
-    while i < n:
-        c = rest[i]
-        if c == "[":
-            k = find_match(rest, i, "[", "]")
-            cells.append((rest[i + 1:k], header_mode))
-            i = k + 1
-            continue
-        if c == "(" and rest[i:i + 2] in ("($", "(["):
-            k = find_match(rest, i, "(", ")")
-            for part in split_top(rest[i + 1:k]):
-                part = part.strip()
-                if part.startswith("[") and part.endswith("]"):
-                    cells.append((part[1:-1], header_mode))
-                elif part.startswith("$") and part.endswith("$"):
-                    cells.append(("$" + part[1:-1] + "$", header_mode))
-                else:
-                    cells.append((part, header_mode))
-            i = k + 1
-            continue
-        if rest.startswith("table.header", i):
-            j = rest.find("(", i)
-            k = find_match(rest, j, "(", ")")
-            header_mode = True
-            inner = rest[j + 1:k]
-            # 头部只取单元格
-            ii, nn = 0, len(inner)
-            while ii < nn:
-                if inner[ii] == "[":
-                    kk = find_match(inner, ii, "[", "]")
-                    cells.append((inner[ii + 1:kk], True))
-                    ii = kk + 1
-                    continue
-                ii += 1
-            header_mode = False
-            i = k + 1
-            continue
-        if rest.startswith("table.hline", i) or rest.startswith("table.vline", i):
-            j = rest.find("(", i)
-            k = find_match(rest, j, "(", ")")
-            i = k + 1
-            continue
-        i += 1
-    rows, row, flags = [], [], []
+        rest = args[:mcols.start()] + args[k + 1:]
+
+    cells: list = []
+
+    def walk(txt: str, header: bool):
+        for part in split_top(txt):
+            p = part.strip()
+            if not p:
+                continue
+            if p.startswith("table.header"):
+                k = find_match(p, p.find("("), "(", ")")
+                walk(p[p.find("(") + 1:k], True)
+                continue
+            if p.startswith("table.hline") or p.startswith("table.vline"):
+                continue
+            if re.match(r"^(stroke|inset|align|column-gutter|row-gutter|fill|width|"
+                        r"repeat-header|above|below)\s*:", p):
+                continue
+            if p.startswith("[") and p.endswith("]") and find_match(p, 0, "[", "]") == len(p) - 1:
+                cells.append((p[1:-1], header))
+                continue
+            if "$" in p or re.search(r"[\u4e00-\u9fff]", p):
+                cells.append((p, header))
+                continue
+
+    walk(rest, False)
+    rows, row, first_header = [], [], False
     for txt, is_h in cells:
+        if not row:
+            first_header = is_h
         row.append(txt)
-        flags.append(is_h)
         if len(row) == ncol:
-            rows.append((row, flags[0]))
-            row, flags = [], []
+            rows.append((row, first_header))
+            row = []
     if row:
-        rows.append((row, False))
+        rows.append((row, first_header))
     return ncol, rows
 
 
@@ -389,6 +378,12 @@ def emit_table(ncol: int, rows, caption: str, ctx: dict) -> str:
     if not rows:
         return ""
     def cell(t):
+        t = t.strip()
+        m = re.match(r"^([a-zA-Z][\w.]*)\((.*)\)$", t, re.S)
+        if m:
+            parts = [x for x in split_top(m.group(2))
+                     if not re.match(r"^\s*[\w.-]+\s*:", x)]
+            t = parts[-1].strip() if parts else ""
         t = inline(t, ctx).replace("|", r"\|").replace("\n", " ")
         return re.sub(r"\s+", " ", t).strip()
 
@@ -540,12 +535,17 @@ def render_block_call(name: str, args: str, body: str, ctx: dict):
     if name == "listing":
         code = (args or "").strip()
         m = re.search(r'^"((?:[^"\\]|\\.)*)"', code)
-        raw = m.group(1) if m else code
-        raw = raw.replace("\\n", "\n").replace('\\"', '"')
+        raw = untypst_string(m.group(1)) if m else code
         return "\n\n```text\n" + raw + "\n```\n\n"
     if name == "code":
-        raw = (body or "").strip()
-        return "\n\n```text\n" + raw + "\n```\n\n"
+        if body is not None:
+            raw = body.strip()
+        else:
+            raw = untypst_string("".join(
+                re.findall(r'"((?:[^"\\]|\\.)*)"', args or "")))
+        if not raw.strip():
+            return ""
+        return "\n\n```text\n" + raw.strip() + "\n```\n\n"
     if name in ("block", "box", "align", "stack", "grid", "columns"):
         mt = (args or "").find("table(")
         if mt >= 0:
