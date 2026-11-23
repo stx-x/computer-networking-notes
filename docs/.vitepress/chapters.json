@@ -4,7 +4,7 @@
     "num": "01",
     "title": "计算机网络与因特网",
     "blurb": "从分组交换、排队延迟到 ISP 分层",
-    "sections": 9
+    "sections": 11
   },
   {
     "slug": "ch02",
@@ -25,21 +25,21 @@
     "num": "04",
     "title": "网络层：数据平面",
     "blurb": "转发、SDN 通用转发与调度算法",
-    "sections": 8
+    "sections": 9
   },
   {
     "slug": "ch05",
     "num": "05",
     "title": "网络层：控制平面",
     "blurb": "LS/DV、OSPF、BGP 与 SDN 控制器",
-    "sections": 9
+    "sections": 11
   },
   {
     "slug": "ch06",
     "num": "06",
     "title": "链路层与局域网",
     "blurb": "CRC、多路访问、ARP、交换机与 VLAN",
-    "sections": 10
+    "sections": 11
   },
   {
     "slug": "ch07",
@@ -53,6 +53,6 @@
     "num": "08",
     "title": "计算机网络安全",
     "blurb": "密码学、TLS 1.3、IPsec 与防火墙",
-    "sections": 10
+    "sections": 13
   }
 ]

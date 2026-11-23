@@ -718,12 +718,13 @@ def main():
             secs.append(n_sec)
 
         body = "\n\n".join(parts_md)
+        nsec = len(re.findall(r"(?m)^## ", body))
         front = (
             "---\n"
             f"title: 第 {num} 章　{title}\n"
             "outline: [2, 3]\n"
             "---\n\n"
-            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{len(parts_md)}" />\n\n'
+            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{nsec}" />\n\n'
         )
         # 旧的「一节一页」URL 重定向到章页（避免历史链接 404）
         legacy = os.path.join(PUB, slug)
@@ -742,7 +743,7 @@ def main():
         out = os.path.join(DOCS, slug + ".md")
         open(out, "w").write(front + body + "\n")
         man.append({"slug": slug, "num": num, "title": title, "blurb": blurb,
-                    "sections": len(parts_md)})
+                    "sections": nsec})
         print(f"{slug}: {len(parts_md)} parts -> {slug}.md, {len(os.listdir(dst_figs))} figs")
 
     os.makedirs(os.path.join(DOCS, ".vitepress"), exist_ok=True)

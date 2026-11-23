@@ -4,7 +4,7 @@ layout: home
 hero:
   name: 计算机网络
   text: 自顶向下方法 · 全章中文译注
-  tagline: 依据 Kurose & Ross 第 9 版逐节译注，保留原书全部 287 张插图与公式推导。从应用层一路走到链路层与网络安全，把自己当作在浏览器里输入网址的那个人，再一层层向下追问。
+  tagline: 依据 Kurose & Ross 第 9 版逐节译注，保留原书全部 287 张插图与公式推导，按章整页连续阅读。从应用层一路走到链路层与网络安全，把自己当作在浏览器里输入网址的那个人，再一层层向下追问。
   actions:
     - theme: brand
       text: 从第 1 章读起
@@ -28,7 +28,7 @@ import { withBase } from 'vitepress'
 
 <div class="stat-strip">
   <div class="stat"><b>8</b><span>章</span></div>
-  <div class="stat"><b>77</b><span>节</span></div>
+  <div class="stat"><b>86</b><span>节</span></div>
   <div class="stat"><b>287</b><span>张插图</span></div>
   <div class="stat"><b>50</b><span>万字</span></div>
 </div>
