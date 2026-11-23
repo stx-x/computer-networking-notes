@@ -431,7 +431,7 @@ def convert_blocks(src: str, ctx: dict) -> str:
                 flush()
                 level = len(m.group(1))
                 title = inline(m.group(2).strip(), ctx)
-                mdlevel = max(1, level - base)
+                mdlevel = min(level, 6)
                 out.append("\n" + "#" * min(mdlevel, 6) + " " + title + "\n\n")
                 i += m.end()
                 continue
@@ -685,7 +685,7 @@ def main():
         d = os.path.join(ROOT, dirname)
         if not os.path.isdir(d):
             continue
-        # 复制图片
+        # 图片转 webp
         src_figs = os.path.join(d, "figs")
         dst_figs = os.path.join(PUB, "figs", slug)
         os.makedirs(dst_figs, exist_ok=True)
@@ -701,57 +701,53 @@ def main():
                 if w > 1500:
                     im = im.resize((1500, round(h * 1500 / w)), Image.LANCZOS)
                 im.save(dst, "WEBP", quality=88, method=6)
-        files = chapter_files(d)
-        outdir = os.path.join(DOCS, slug)
-        os.makedirs(outdir, exist_ok=True)
-        pages = []
-        for fp in files:
-            stem = os.path.splitext(os.path.basename(fp))[0]
-            sec_title, sec_num = section_meta(fp)
+
+        parts_md, secs = [], []
+        for fp in chapter_files(d):
             src = strip_lets(open(fp).read())
-            # 章标题（一级标题）由侧边栏承担，正文里删掉，避免和节标题抢 h1
-            mtitle = re.search(r"^=\s+.*\n?", src, flags=re.M)
-            if mtitle:
-                src = src[:mtitle.start()] + src[mtitle.end():]
-            # 若正文前有引言段，把首个 == 标题提到最前
-            mfirst = re.search(r"^==\s+.*$", src, flags=re.M)
-            if mfirst:
-                head = src[:mfirst.start()]
-                if re.search(r"[\u4e00-\u9fff]", re.sub(r"#.*", "", head)):
-                    src = mfirst.group(0) + "\n\n" + head.strip() + "\n\n" + src[mfirst.end():]
+            # 章标题（一级标题）由页面 <ChapterHero> 承担
+            src = re.sub(r"^=\s+.*\n?", "", src, flags=re.M)
             md = convert_blocks(src, {"slug": slug})
-            # 代码块之外残留的 linebreak 统一转 <br>
-            parts = md.split("```")
-            for k in range(0, len(parts), 2):
-                parts[k] = parts[k].replace("#linebreak()", "<br>")
-            md = "```".join(parts)
-            front = (
-                "---\n"
-                f"title: {sec_title}\n"
-                f"outline: [2, 3]\n"
-                "---\n\n"
-            )
-            open(os.path.join(outdir, stem + ".md"), "w").write(front + md)
-            pages.append((stem, sec_title))
-        # 章节 index
-        links = "\n".join(
-            f'<ChapterLink href="/{slug}/{stem}.html" title="{attr_text(t)}" />'
-            for stem, t in pages
-        )
-        idx = (
+            blocks = md.split("```")
+            for k in range(0, len(blocks), 2):
+                blocks[k] = blocks[k].replace("#linebreak()", "<br>")
+            md = "```".join(blocks).strip()
+            if md:
+                parts_md.append(md)
+            n_sec = len(re.findall(r"(?m)^## ", md))
+            secs.append(n_sec)
+
+        body = "\n\n".join(parts_md)
+        front = (
             "---\n"
             f"title: 第 {num} 章　{title}\n"
-            "outline: false\n"
+            "outline: [2, 3]\n"
             "---\n\n"
-            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{len(pages)}" />\n\n'
-            "## 本章目录\n\n" + links + "\n"
+            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{len(parts_md)}" />\n\n'
         )
-        open(os.path.join(outdir, "index.md"), "w").write(idx)
+        # 旧的「一节一页」URL 重定向到章页（避免历史链接 404）
+        legacy = os.path.join(PUB, slug)
+        os.makedirs(legacy, exist_ok=True)
+        for fp in chapter_files(d):
+            stem = os.path.splitext(os.path.basename(fp))[0]
+            stub = os.path.join(legacy, stem + ".html")
+            open(stub, "w").write(
+                "<!doctype html><meta charset=\"utf-8\">"
+                f"<title>跳转…</title><meta http-equiv=\"refresh\" "
+                f"content=\"0; url=../../{slug}.html\">"
+                f"<link rel=\"canonical\" href=\"../../{slug}.html\">"
+                "<p>页面已合并到整章页面，"
+                f"<a href=\"../../{slug}.html\">继续阅读</a>。</p>")
+
+        out = os.path.join(DOCS, slug + ".md")
+        open(out, "w").write(front + body + "\n")
         man.append({"slug": slug, "num": num, "title": title, "blurb": blurb,
-                    "pages": [{"href": f"/{slug}/{s}.html", "title": t} for s, t in pages]})
-        print(f"{slug}: {len(pages)} pages, {len(os.listdir(dst_figs))} figs")
+                    "sections": len(parts_md)})
+        print(f"{slug}: {len(parts_md)} parts -> {slug}.md, {len(os.listdir(dst_figs))} figs")
+
     os.makedirs(os.path.join(DOCS, ".vitepress"), exist_ok=True)
-    json.dump(man, open(os.path.join(DOCS, ".vitepress", "chapters.json"), "w"), ensure_ascii=False, indent=2)
+    json.dump(man, open(os.path.join(DOCS, ".vitepress", "chapters.json"), "w"),
+              ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":

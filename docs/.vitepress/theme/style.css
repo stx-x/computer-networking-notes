@@ -553,3 +553,47 @@ mjx-container[display='true'] {
   color: var(--vp-c-brand-1);
   letter-spacing: 0.01em;
 }
+
+/* ---- 长页阅读：右侧目录不截断 ---- */
+.VPDocAsideOutline .outline-link {
+  white-space: normal !important;
+  line-height: 1.5;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 12.6px;
+}
+.VPDocAsideOutline .outline-link:hover,
+.VPDocAsideOutline .outline-link.active {
+  color: var(--vp-c-brand-1);
+}
+.VPDocAside .outline-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+/* ---- 阅读进度条 ---- */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.reading-progress.is-on {
+  opacity: 1;
+}
+
+/* 长页 hero 收紧一点 */
+.chapter-hero {
+  padding: 30px 0 26px !important;
+}

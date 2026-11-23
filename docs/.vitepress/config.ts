@@ -3,21 +3,10 @@ import chapters from './chapters.json'
 
 const repoBase = process.env.DOCS_BASE || '/'
 
-const sidebar = Object.fromEntries(
-  chapters.map((c: any) => [
-    `/${c.slug}/`,
-    [
-      {
-        text: `第 ${c.num} 章　${c.title}`,
-        items: [{ text: '本章导读', link: `/${c.slug}/` }],
-      },
-      {
-        text: '正文',
-        items: c.pages.map((p: any) => ({ text: p.title, link: p.href })),
-      },
-    ],
-  ])
-)
+const sidebar = chapters.map((c: any) => ({
+  text: `第 ${c.num} 章　${c.title}`,
+  link: `/${c.slug}.html`
+}))
 
 export default defineConfig({
   title: '计算机网络：自顶向下方法',
@@ -51,12 +40,12 @@ export default defineConfig({
         text: '章节目录',
         items: chapters.map((c: any) => ({
           text: `第 ${c.num} 章　${c.title}`,
-          link: `/${c.slug}/`
+          link: `/${c.slug}.html`
         }))
       },
       { text: '关于', link: '/about' }
     ],
-    sidebar,
+    sidebar: { '/': sidebar },
     search: {
       provider: 'local',
       options: {

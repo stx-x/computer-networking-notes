@@ -7,13 +7,13 @@ const items = chapters as any[]
 
 <template>
   <div class="ch-grid">
-    <a v-for="c in items" :key="c.slug" class="ch-card" :href="withBase(`/${c.slug}/`)">
+    <a v-for="c in items" :key="c.slug" class="ch-card" :href="withBase(`/${c.slug}.html`)">
       <div class="ch-card__num">{{ c.num }}</div>
       <div class="ch-card__body">
         <h3 class="ch-card__title">{{ c.title }}</h3>
         <p class="ch-card__blurb">{{ c.blurb }}</p>
       </div>
-      <div class="ch-card__meta">{{ c.pages.length }} 节</div>
+      <div class="ch-card__meta">{{ c.sections }} 节</div>
     </a>
   </div>
 </template>
