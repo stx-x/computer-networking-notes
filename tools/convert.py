@@ -145,6 +145,12 @@ def inline(s: str, ctx: dict) -> str:
     out, i, n = [], 0, len(s)
     while i < n:
         c = s[i]
+        if c == "`":
+            j = s.find("`", i + 1)
+            if j > i:
+                out.append(s[i:j + 1])
+                i = j + 1
+                continue
         if c == "$":
             j = i + 1
             while j < n and s[j] != "$":
@@ -248,10 +254,16 @@ def render_inline_call(name: str, args: str, body: str, ctx: dict) -> str:
             return inline(body, ctx)
         m = re.findall(r'"([^"]*)"', args or "")
         return "".join(m)
+    if name == "qa":
+        label = (re.findall(r'"([^"]*)"', args or "") or [""])[0]
+        inner = inline(body, ctx) if body is not None else ""
+        return f'**{label}** {inner}'
     if name == "raw":
         m = re.findall(r'"([^"]*)"', args or "")
         return "`" + "".join(m) + "`" if m else ""
-    if name in ("v", "h", "pagebreak", "linebreak"):
+    if name == "linebreak":
+        return "<br>"
+    if name in ("v", "h", "pagebreak"):
         return ""
     if name in ("block", "box", "align", "stack", "grid", "columns"):
         content = _block_content(args, body)
@@ -478,6 +490,29 @@ def render_paragraph(text: str, ctx: dict) -> str:
     return "\n".join(rendered).strip() + "\n\n"
 
 
+
+def pair_rows(args: str, ctx: dict):
+    """解析 (("a", "b"), ("c", "d")) 这种成对数据。"""
+    inner = args.strip()
+    if inner.startswith("(") and inner.endswith(")"):
+        inner = inner[1:-1]
+    rows = []
+    for part in split_top(inner):
+        p = part.strip()
+        if not (p.startswith("(") and p.endswith(")")):
+            continue
+        cells = []
+        for v in split_top(p[1:-1]):
+            v = v.strip()
+            if len(v) >= 2 and v[0] == '"' and v[-1] == '"':
+                cells.append(v[1:-1])
+            elif v:
+                cells.append(inline(v, ctx).strip())
+        if cells:
+            rows.append(cells)
+    return rows
+
+
 def render_block_call(name: str, args: str, body: str, ctx: dict):
     if name in ("import", "set", "show", "let", "outline", "par"):
         return ""
@@ -520,8 +555,9 @@ def render_block_call(name: str, args: str, body: str, ctx: dict):
         content = _block_content(args, body)
         if content is None:
             return None
-        if "mono" in (args or "") and re.search(r'"[^"]+"', content):
-            raw = re.findall(r'"([^"]*)"', content)
+        if "mono" in content and re.search(r'"[^"]+"', content):
+            raw = re.findall(r'"((?:[^"\\]|\\.)*)"', content)
+            raw = [x.replace('\\"', '"').replace('\\\\', '\\') for x in raw]
             if raw:
                 return "\n\n```text\n" + "\n".join(raw) + "\n```\n\n"
         disp = _maybe_display(content, ctx)
@@ -539,16 +575,27 @@ def render_block_call(name: str, args: str, body: str, ctx: dict):
             return emit_table(ncol, rows, cap, ctx)
         if body is not None:
             return "\n\n" + convert_blocks(body, ctx) + "\n\n"
+    if name == "qa":
+        label = (re.findall(r'"([^"]*)"', args or "") or [""])[0]
+        inner = convert_blocks(body or "", ctx).strip()
+        return f'\n\n**{label}** {inner}\n\n'
     if name == "table":
         ncol, rows = parse_table(args, ctx)
         return emit_table(ncol, rows, "", ctx)
-    if name == "gterm":
-        body = args or ""
-        pairs = re.findall(r'\(\s*"([^"]*)"\s*,\s*"([^"]*)"\s*\)', body)
-        if not pairs:
+    if name in ("gterm", "gl", "sym"):
+        rows = pair_rows(args or "", ctx)
+        if not rows:
             return None
-        lines = ["| 英文 | 中文 |", "| --- | --- |"]
-        lines += [f"| {a} | {b} |" for a, b in pairs]
+        ncol = max(len(r) for r in rows)
+        if name == "gterm":
+            head = ["英文", "中文"]
+        else:
+            head = ["术语", "English"] * (ncol // 2)
+        head = head[:ncol]
+        lines = ["| " + " | ".join(head) + " |", "| " + " | ".join(["---"] * ncol) + " |"]
+        for r in rows:
+            r = list(r) + [""] * (ncol - len(r))
+            lines.append("| " + " | ".join(c.replace("|", r"\|") for c in r) + " |")
         return "\n\n" + "\n".join(lines) + "\n\n"
     if name == "heading":
         return ""
@@ -668,6 +715,11 @@ def main():
                 if re.search(r"[\u4e00-\u9fff]", re.sub(r"#.*", "", head)):
                     src = mfirst.group(0) + "\n\n" + head.strip() + "\n\n" + src[mfirst.end():]
             md = convert_blocks(src, {"slug": slug})
+            # 代码块之外残留的 linebreak 统一转 <br>
+            parts = md.split("```")
+            for k in range(0, len(parts), 2):
+                parts[k] = parts[k].replace("#linebreak()", "<br>")
+            md = "```".join(parts)
             front = (
                 "---\n"
                 f"title: {sec_title}\n"

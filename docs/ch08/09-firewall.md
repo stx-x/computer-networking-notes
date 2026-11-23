@@ -81,7 +81,7 @@ Palo Alto Networks、Cisco 与 Check Point 是当今领先的防火墙厂商中�
 
 <p class="tbl-cap">表 8.8　状态过滤器的访问控制列表</p>
 
-| **检查#linebreak()连接** | **动作** | **源地址** | **目的地址** | **协议** | **源端口** | **目的端口** | **标志位** |
+| **检查<br>连接** | **动作** | **源地址** | **目的地址** | **协议** | **源端口** | **目的端口** | **标志位** |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | allow | 222.22/16 | 外部 | TCP | $> 1023$ | 80 | any |
 | X | allow | 外部 | 222.22/16 | TCP | 80 | $> 1023$ | ACK |
@@ -143,10 +143,11 @@ Snort 是一个公有领域的开源 IDS，已有数十万套部署 [Snort 2012;
 
 为体会 Snort，来看一条 Snort 特征的例子：
 
+```text
 alert icmp $EXTERNAL_NET any -> $HOME_NET any
-  #linebreak()
-  (msg:\; dsize: 0; itype: 8;)
+(msg:"ICMP PING NMAP"; dsize: 0; itype: 8;)
+```
 
-任何从外部（`$\mathrm{EXTERNAL}_{\mathrm{NET}} ` ） \mathrm{进入组织网络} （ `$HOME_NET`）、类型为 8（ICMP ping）且载荷为空（`dsize = 0`）的 ICMP 分组都会匹配这条特征。由于 nmap（见 1.6 节）生成的 ping 分组正是这些特征，这条特征就是用来检测 nmap ping 扫描的。当某个分组匹配这条特征时，Snort 产生一条包含消息"ICMP PING NMAP"的告警。
+任何从外部（`$EXTERNAL_NET`）进入组织网络（`$HOME_NET`）、类型为 8（ICMP ping）且载荷为空（`dsize = 0`）的 ICMP 分组都会匹配这条特征。由于 nmap（见 1.6 节）生成的 ping 分组正是这些特征，这条特征就是用来检测 nmap ping 扫描的。当某个分组匹配这条特征时，Snort 产生一条包含消息"ICMP PING NMAP"的告警。
 
 Snort 最令人印象深刻之处，也许是维护其特征数据库的庞大用户与安全专家社区。通常在新攻击出现后几小时内，Snort 社区就会写出并发布一条攻击特征，随后被全世界数十万套 Snort 部署下载。此外，利用 Snort 特征语法，网络管理员可以通过修改现有特征或创建全新特征，把特征裁剪成适合本组织需要的样式。

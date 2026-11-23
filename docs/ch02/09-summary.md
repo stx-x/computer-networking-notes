@@ -23,59 +23,59 @@ outline: [2, 3]
 
 ## 本章要点自测
 
-客户-服务器体系结构与 P2P 体系结构各有什么优缺点？为什么今天大多数应用仍采用客户-服务器结构？
+**1.** 客户-服务器体系结构与 P2P 体系结构各有什么优缺点？为什么今天大多数应用仍采用客户-服务器结构？
 
-一个进程要向另一台主机上的进程发送报文，需要知道哪两项信息？各自的作用是什么？
+**2.** 一个进程要向另一台主机上的进程发送报文，需要知道哪两项信息？各自的作用是什么？
 
-TCP 与 UDP 各提供哪些服务？为什么 DNS 通常使用 UDP，而 HTTP/1.1 使用 TCP？
+**3.** TCP 与 UDP 各提供哪些服务？为什么 DNS 通常使用 UDP，而 HTTP/1.1 使用 TCP？
 
-为什么说 HTTP 是无状态协议？Cookie 的四个组成部分是什么？它如何在无状态协议之上实现用户会话？
+**4.** 为什么说 HTTP 是无状态协议？Cookie 的四个组成部分是什么？它如何在无状态协议之上实现用户会话？
 
-非持续连接与持续连接的区别是什么？在非持续连接下请求一个含 10 个对象的网页，大约需要多少个 RTT？
+**5.** 非持续连接与持续连接的区别是什么？在非持续连接下请求一个含 10 个对象的网页，大约需要多少个 RTT？
 
-条件 GET 的作用是什么？服务器返回 304 状态码意味着什么？
+**6.** 条件 GET 的作用是什么？服务器返回 304 状态码意味着什么？
 
-HTTP/2 的成帧机制如何缓解队头阻塞？为什么它无法从根本上消除 HOL 阻塞？
+**7.** HTTP/2 的成帧机制如何缓解队头阻塞？为什么它无法从根本上消除 HOL 阻塞？
 
-QUIC 为什么被称为"应用层的子层"而不是第三个运输层协议？它相对 TCP+TLS 有哪些优势？
+**8.** QUIC 为什么被称为"应用层的子层"而不是第三个运输层协议？它相对 TCP+TLS 有哪些优势？
 
-SMTP、POP3、IMAP 各自的作用是什么？为什么 SMTP 被称为"推"协议而 HTTP 是"拉"协议？
+**9.** SMTP、POP3、IMAP 各自的作用是什么？为什么 SMTP 被称为"推"协议而 HTTP 是"拉"协议？
 
-DNS 的层次结构包括哪几类服务器？递归查询与迭代查询有何区别？
+**10.** DNS 的层次结构包括哪几类服务器？递归查询与迭代查询有何区别？
 
-DNS 资源记录的四种主要类型（A、NS、CNAME、MX）各自的作用是什么？
+**11.** DNS 资源记录的四种主要类型（A、NS、CNAME、MX）各自的作用是什么？
 
-DASH 如何适应不同用户的带宽？CDN 的"拉"式与"推"式分发各适合什么场景？
+**12.** DASH 如何适应不同用户的带宽？CDN 的"拉"式与"推"式分发各适合什么场景？
 
 # 附录 A　术语对照表
 
-#gl((
-  ("应用层", "application layer", "应用体系结构", "application architecture"),
-  ("客户-服务器", "client-server", "对等", "peer-to-peer (P2P)"),
-  ("进程", "process", "套接字", "socket"),
-  ("用户代理", "user agent", "邮件服务器", "mail server"),
-  ("端口号", "port number", "IP 地址", "IP address"),
-  ("可靠数据传输", "reliable data transfer", "吞吐量", "throughput"),
-  ("带宽敏感", "bandwidth-sensitive", "弹性应用", "elastic application"),
-  ("无连接", "connectionless", "面向连接", "connection-oriented"),
-  ("超文本传输协议", "HTTP", "请求行", "request line"),
-  ("首部行", "header line", "状态码", "status code"),
-  ("实体主体", "entity body", "持续连接", "persistent connection"),
-  ("非持续连接", "non-persistent connection", "往返时间", "RTT"),
-  ("Cookie", "cookie", "浏览器缓存", "browser caching"),
-  ("条件 GET", "conditional GET", "代理缓存", "proxy cache"),
-  ("成帧子层", "framing sub-layer", "队头阻塞", "HOL blocking"),
-  ("服务器推送", "server push", "多路复用", "multiplexing"),
-  ("简单邮件传输协议", "SMTP", "邮件访问协议", "mail access protocol"),
-  ("域名系统", "DNS", "根服务器", "root server"),
-  ("顶级域服务器", "TLD server", "权威服务器", "authoritative server"),
-  ("本地 DNS 服务器", "local DNS server", "递归查询", "recursive query"),
-  ("迭代查询", "iterative query", "资源记录", "resource record"),
-  ("规范主机名", "canonical hostname", "负载分配", "load distribution"),
-  ("内容分发网", "CDN", "动态自适应流", "DASH"),
-  ("告示文件", "manifest file", "用户生成内容", "UGC"),
-  ("字节流", "byte stream", "欢迎套接字", "welcoming socket"),
-))
+| 术语 | English | 术语 | English |
+| --- | --- | --- | --- |
+| 应用层 | application layer | 应用体系结构 | application architecture |
+| 客户-服务器 | client-server | 对等 | peer-to-peer (P2P) |
+| 进程 | process | 套接字 | socket |
+| 用户代理 | user agent | 邮件服务器 | mail server |
+| 端口号 | port number | IP 地址 | IP address |
+| 可靠数据传输 | reliable data transfer | 吞吐量 | throughput |
+| 带宽敏感 | bandwidth-sensitive | 弹性应用 | elastic application |
+| 无连接 | connectionless | 面向连接 | connection-oriented |
+| 超文本传输协议 | HTTP | 请求行 | request line |
+| 首部行 | header line | 状态码 | status code |
+| 实体主体 | entity body | 持续连接 | persistent connection |
+| 非持续连接 | non-persistent connection | 往返时间 | RTT |
+| Cookie | cookie | 浏览器缓存 | browser caching |
+| 条件 GET | conditional GET | 代理缓存 | proxy cache |
+| 成帧子层 | framing sub-layer | 队头阻塞 | HOL blocking |
+| 服务器推送 | server push | 多路复用 | multiplexing |
+| 简单邮件传输协议 | SMTP | 邮件访问协议 | mail access protocol |
+| 域名系统 | DNS | 根服务器 | root server |
+| 顶级域服务器 | TLD server | 权威服务器 | authoritative server |
+| 本地 DNS 服务器 | local DNS server | 递归查询 | recursive query |
+| 迭代查询 | iterative query | 资源记录 | resource record |
+| 规范主机名 | canonical hostname | 负载分配 | load distribution |
+| 内容分发网 | CDN | 动态自适应流 | DASH |
+| 告示文件 | manifest file | 用户生成内容 | UGC |
+| 字节流 | byte stream | 欢迎套接字 | welcoming socket |
 
 # 附录 B　常用端口与报文速查
 
