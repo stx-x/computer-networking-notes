@@ -1,0 +1,374 @@
+[
+  {
+    "slug": "ch01",
+    "num": "01",
+    "title": "计算机网络与因特网",
+    "blurb": "从分组交换、排队延迟到 ISP 分层",
+    "pages": [
+      {
+        "href": "/ch01/01-what.html",
+        "title": "计算机网络与因特网"
+      },
+      {
+        "href": "/ch01/02-edge.html",
+        "title": "1.2　网络边缘"
+      },
+      {
+        "href": "/ch01/03-core.html",
+        "title": "1.3　网络核心"
+      },
+      {
+        "href": "/ch01/04-delay.html",
+        "title": "1.4　分组交换网中的时延、丢包与吞吐量"
+      },
+      {
+        "href": "/ch01/05-layers.html",
+        "title": "1.5　协议层次及其服务模型"
+      },
+      {
+        "href": "/ch01/06-security.html",
+        "title": "1.6　面对攻击的网络"
+      },
+      {
+        "href": "/ch01/07-history.html",
+        "title": "1.7　计算机网络与因特网的历史"
+      },
+      {
+        "href": "/ch01/08-summary.html",
+        "title": "1.8　小结"
+      },
+      {
+        "href": "/ch01/09-exercises.html",
+        "title": "习题"
+      }
+    ]
+  },
+  {
+    "slug": "ch02",
+    "num": "02",
+    "title": "应用层",
+    "blurb": "HTTP/2、DNS、CDN 与套接字编程",
+    "pages": [
+      {
+        "href": "/ch02/01-principles.html",
+        "title": "应用层"
+      },
+      {
+        "href": "/ch02/02-http.html",
+        "title": "2.2　Web 与 HTTP"
+      },
+      {
+        "href": "/ch02/03-http2.html",
+        "title": "2.2.3（续）　状态码与真实报文"
+      },
+      {
+        "href": "/ch02/04-quic.html",
+        "title": "2.2.6　HTTP/2"
+      },
+      {
+        "href": "/ch02/05-mail.html",
+        "title": "2.3　因特网中的电子邮件"
+      },
+      {
+        "href": "/ch02/06-dns.html",
+        "title": "2.4　DNS：因特网的目录服务"
+      },
+      {
+        "href": "/ch02/07-video.html",
+        "title": "2.5　视频流与内容分发网"
+      },
+      {
+        "href": "/ch02/08-socket.html",
+        "title": "2.6　套接字编程：创建网络应用"
+      },
+      {
+        "href": "/ch02/09-summary.html",
+        "title": "2.7　小结"
+      }
+    ]
+  },
+  {
+    "slug": "ch03",
+    "num": "03",
+    "title": "运输层",
+    "blurb": "rdt 状态机、TCP 拥塞控制与 QUIC",
+    "pages": [
+      {
+        "href": "/ch03/01-intro.html",
+        "title": "运输层"
+      },
+      {
+        "href": "/ch03/02-mux.html",
+        "title": "3.2　多路复用与多路分解"
+      },
+      {
+        "href": "/ch03/03-udp.html",
+        "title": "3.3　无连接运输：UDP"
+      },
+      {
+        "href": "/ch03/04a-rdt.html",
+        "title": "3.4　可靠数据传输原理"
+      },
+      {
+        "href": "/ch03/04b-pipeline.html",
+        "title": "3.4.2　流水线可靠数据传输协议"
+      },
+      {
+        "href": "/ch03/05a-tcp.html",
+        "title": "3.5　面向连接的运输：TCP"
+      },
+      {
+        "href": "/ch03/05b-rdt-tcp.html",
+        "title": "3.5.3　往返时间估计与超时"
+      },
+      {
+        "href": "/ch03/05c-flow-conn.html",
+        "title": "3.5.5　流量控制"
+      },
+      {
+        "href": "/ch03/06-congestion.html",
+        "title": "3.6　拥塞控制原理"
+      },
+      {
+        "href": "/ch03/07-tcp-cc.html",
+        "title": "3.7　TCP 拥塞控制"
+      },
+      {
+        "href": "/ch03/08-fairness-quic.html",
+        "title": "3.7.4　公平性"
+      },
+      {
+        "href": "/ch03/09-exercises.html",
+        "title": "习题"
+      }
+    ]
+  },
+  {
+    "slug": "ch04",
+    "num": "04",
+    "title": "网络层：数据平面",
+    "blurb": "转发、SDN 通用转发与调度算法",
+    "pages": [
+      {
+        "href": "/ch04/01-overview.html",
+        "title": "网络层：数据平面"
+      },
+      {
+        "href": "/ch04/02-router.html",
+        "title": "4.2　路由器内部"
+      },
+      {
+        "href": "/ch04/03-ipv4.html",
+        "title": "4.3　网际协议（IP）：IPv4、编址、IPv6 及其他"
+      },
+      {
+        "href": "/ch04/04-addressing.html",
+        "title": "4.3.2　IPv4 编址"
+      },
+      {
+        "href": "/ch04/05-nat-ipv6.html",
+        "title": "4.3.3　网络地址转换（NAT）"
+      },
+      {
+        "href": "/ch04/06-sdn.html",
+        "title": "4.4　广义转发与 SDN"
+      },
+      {
+        "href": "/ch04/07-principles.html",
+        "title": "4.5　因特网的体系结构原则"
+      },
+      {
+        "href": "/ch04/08-exercises.html",
+        "title": "本章要点自测"
+      }
+    ]
+  },
+  {
+    "slug": "ch05",
+    "num": "05",
+    "title": "网络层：控制平面",
+    "blurb": "LS/DV、OSPF、BGP 与 SDN 控制器",
+    "pages": [
+      {
+        "href": "/ch05/01-intro.html",
+        "title": "5.1　导论"
+      },
+      {
+        "href": "/ch05/02-ls.html",
+        "title": "5.2　路由算法"
+      },
+      {
+        "href": "/ch05/03-dv.html",
+        "title": "5.2.2　距离向量（DV）路由算法"
+      },
+      {
+        "href": "/ch05/04-ospf.html",
+        "title": "5.3　因特网中的自治系统内部选路：OSPF"
+      },
+      {
+        "href": "/ch05/05-bgp.html",
+        "title": "5.4　ISP 之间的选路：BGP"
+      },
+      {
+        "href": "/ch05/06-sdn.html",
+        "title": "5.5　SDN 控制平面"
+      },
+      {
+        "href": "/ch05/07-icmp.html",
+        "title": "5.6　ICMP：因特网控制报文协议"
+      },
+      {
+        "href": "/ch05/08-netmgmt.html",
+        "title": "5.7　网络管理与 SNMP、NETCONF/YANG"
+      },
+      {
+        "href": "/ch05/09-exercises.html",
+        "title": "5.8　小结"
+      }
+    ]
+  },
+  {
+    "slug": "ch06",
+    "num": "06",
+    "title": "链路层与局域网",
+    "blurb": "CRC、多路访问、ARP、交换机与 VLAN",
+    "pages": [
+      {
+        "href": "/ch06/01-intro.html",
+        "title": "6.1　链路层导论"
+      },
+      {
+        "href": "/ch06/02-error.html",
+        "title": "6.2　差错检测与纠正技术"
+      },
+      {
+        "href": "/ch06/03-multiple.html",
+        "title": "6.3　多路访问链路与协议"
+      },
+      {
+        "href": "/ch06/04-arp.html",
+        "title": "6.4　交换式局域网"
+      },
+      {
+        "href": "/ch06/05-ethernet.html",
+        "title": "6.4.2　以太网"
+      },
+      {
+        "href": "/ch06/06-switch.html",
+        "title": "6.4.3　链路层交换机"
+      },
+      {
+        "href": "/ch06/07-mpls.html",
+        "title": "6.5　链路虚拟化：把网络当作链路层"
+      },
+      {
+        "href": "/ch06/08-dc.html",
+        "title": "6.6　数据中心网络"
+      },
+      {
+        "href": "/ch06/09-day.html",
+        "title": "6.7　回顾：一次 Web 页面请求的一生"
+      },
+      {
+        "href": "/ch06/10-exercises.html",
+        "title": "6.8　小结"
+      }
+    ]
+  },
+  {
+    "slug": "ch07",
+    "num": "07",
+    "title": "无线与移动网络",
+    "blurb": "802.11、5G RAN 与移动性管理",
+    "pages": [
+      {
+        "href": "/ch07/01-intro.html",
+        "title": "7.1　导论"
+      },
+      {
+        "href": "/ch07/02-phy.html",
+        "title": "7.2　无线网络中的物理层"
+      },
+      {
+        "href": "/ch07/03-access.html",
+        "title": "7.3　无线接入网"
+      },
+      {
+        "href": "/ch07/04-wifi.html",
+        "title": "7.3.2　WiFi：802.11 无线局域网"
+      },
+      {
+        "href": "/ch07/05-ran.html",
+        "title": "7.3.3　5G 无线接入网"
+      },
+      {
+        "href": "/ch07/06-attach.html",
+        "title": "7.3.4　发现：附着到无线网络"
+      },
+      {
+        "href": "/ch07/07-core.html",
+        "title": "7.4　无线核心网"
+      },
+      {
+        "href": "/ch07/08-mobility.html",
+        "title": "7.5　移动性"
+      },
+      {
+        "href": "/ch07/09-bt.html",
+        "title": "7.6　蓝牙、卫星与 IoT 无线网络"
+      },
+      {
+        "href": "/ch07/10-exercises.html",
+        "title": "7.7　小结"
+      }
+    ]
+  },
+  {
+    "slug": "ch08",
+    "num": "08",
+    "title": "计算机网络安全",
+    "blurb": "密码学、TLS 1.3、IPsec 与防火墙",
+    "pages": [
+      {
+        "href": "/ch08/01-intro.html",
+        "title": "8.1　什么是网络安全？"
+      },
+      {
+        "href": "/ch08/02-crypto.html",
+        "title": "8.2　密码学原理"
+      },
+      {
+        "href": "/ch08/03-integrity.html",
+        "title": "8.3　报文完整性与数字签名"
+      },
+      {
+        "href": "/ch08/04-auth.html",
+        "title": "8.4　端点鉴别"
+      },
+      {
+        "href": "/ch08/05-email.html",
+        "title": "8.5　保护电子邮件"
+      },
+      {
+        "href": "/ch08/06-tls.html",
+        "title": "8.6　保护 TCP 与 HTTP 连接：TLS"
+      },
+      {
+        "href": "/ch08/07-ipsec.html",
+        "title": "8.7　网络层安全：IPsec 与虚拟专用网"
+      },
+      {
+        "href": "/ch08/08-wireless.html",
+        "title": "8.8　保护无线局域网与 4G/5G 蜂窝网"
+      },
+      {
+        "href": "/ch08/09-firewall.html",
+        "title": "8.9　运行安全：防火墙与入侵检测系统"
+      },
+      {
+        "href": "/ch08/10-exercises.html",
+        "title": "8.10　小结"
+      }
+    ]
+  }
+]
