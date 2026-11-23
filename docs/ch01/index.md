@@ -7,7 +7,7 @@ outline: false
 
 ## 本章目录
 
-<ChapterLink href="/ch01/01-what.html" title="计算机网络与因特网" />
+<ChapterLink href="/ch01/01-what.html" title="1.1　什么是因特网" />
 <ChapterLink href="/ch01/02-edge.html" title="1.2　网络边缘" />
 <ChapterLink href="/ch01/03-core.html" title="1.3　网络核心" />
 <ChapterLink href="/ch01/04-delay.html" title="1.4　分组交换网中的时延、丢包与吞吐量" />

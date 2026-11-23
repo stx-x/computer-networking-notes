@@ -73,6 +73,42 @@ TCP 在 IP 不可靠的尽力而为服务之上，创建了可靠数据传输服
 
 TCP 发送方必须处理的第三个主要事件，是收到来自接收方的确认报文段（更准确地说，是包含有效 ACK 字段值的报文段）。此事件发生时，TCP 把 ACK 值 $y$ 与其变量 SendBase 比较。TCP 状态变量 SendBase 是最早的未确认字节的序号（因此 SendBase − 1 就是已知被接收方正确按序收到的最后一个字节的序号）。如前所述，TCP 使用累积确认，因此 $y$ 确认了序号 $y$ 之前所有字节的接收。若 $y > \text{SendBase}$，则该 ACK 确认了一个或多个此前未确认的报文段；于是发送方更新其 SendBase 变量，并且如果当前还有尚未确认的报文段，就重启定时器。
 
+<p class="tbl-cap">图 3.32　简化的 TCP 发送方</p>
+
+```text
+/* 假定发送方不受 TCP 流量控制或拥塞控制的约束，
+   上层数据小于 MSS，且数据只在一个方向上传输 */
+
+NextSeqNum = InitialSeqNumber
+SendBase   = InitialSeqNumber
+
+loop (forever) {
+    switch(event)
+
+        event: 从上层收到数据
+            创建序号为 NextSeqNum 的 TCP 报文段
+            if (定时器当前未运行)
+                启动定时器
+            把报文段交给 IP
+            NextSeqNum = NextSeqNum + length(data)
+            break;
+
+        event: 定时器超时
+            重传序号最小的尚未确认的报文段
+            启动定时器
+            break;
+
+        event: 收到 ACK，其 ACK 字段值为 y
+            if (y > SendBase) {
+                SendBase = y
+                if (当前还有尚未确认的报文段)
+                    启动定时器
+            }
+            break;
+
+} /* loop forever 结束 */
+```
+
 ## 几个有趣的场景
 
 以上描述了 TCP 提供可靠数据传输的一个高度简化版本，但即便是这个高度简化的版本也有许多微妙之处。为体会该协议如何工作，下面走一遍几个简单场景。

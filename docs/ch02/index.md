@@ -7,7 +7,7 @@ outline: false
 
 ## 本章目录
 
-<ChapterLink href="/ch02/01-principles.html" title="应用层" />
+<ChapterLink href="/ch02/01-principles.html" title="2.1　网络应用的原理" />
 <ChapterLink href="/ch02/02-http.html" title="2.2　Web 与 HTTP" />
 <ChapterLink href="/ch02/03-http2.html" title="2.2.3（续）　状态码与真实报文" />
 <ChapterLink href="/ch02/04-quic.html" title="2.2.6　HTTP/2" />

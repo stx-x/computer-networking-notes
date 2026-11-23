@@ -21,7 +21,7 @@ MIT、兰德和 NPL 的工作为今天的因特网奠定了基础。但因特网
 
 ## 1.7.2　专用网络与网络互连：1972—1980
 
-最初的 ARPAnet 是一个单一的封闭网络，要与 ARPAnet 主机通信，必须实际连接到另一台 ARPAnet IMP 上。70 年代初中期，除 ARPAnet 之外又出现了若干独立的的分组交换网：连接夏威夷各岛大学的微波网络 ALOHANet [Abramson 1970]，DARPA 的分组卫星网 [RFC 829] 与分组无线电网 [Kahn 1978]；基于 ARPAnet 技术的 BBN 商用分组交换网 Telenet；由 Louis Pouzin 开创的法国分组交换网 Cyclades [Think 2012]；60 年代末 70 年代初的分时网络，如 Tymnet 和 GE 信息服务网 [Schwartz 1977]；以及 IBM 的 SNA（1969—1974），它与 ARPAnet 的工作并行 [Schwartz 1977]。
+最初的 ARPAnet 是一个单一的封闭网络，要与 ARPAnet 主机通信，必须实际连接到另一台 ARPAnet IMP 上。70 年代初中期，除 ARPAnet 之外又出现了若干独立的分组交换网：连接夏威夷各岛大学的微波网络 ALOHANet [Abramson 1970]，DARPA 的分组卫星网 [RFC 829] 与分组无线电网 [Kahn 1978]；基于 ARPAnet 技术的 BBN 商用分组交换网 Telenet；由 Louis Pouzin 开创的法国分组交换网 Cyclades [Think 2012]；60 年代末 70 年代初的分时网络，如 Tymnet 和 GE 信息服务网 [Schwartz 1977]；以及 IBM 的 SNA（1969—1974），它与 ARPAnet 的工作并行 [Schwartz 1977]。
 
 网络数量在不断增长。事后看来，为把这些网络连接起来而发展一个包罗万象的体系结构，时机已经成熟。在**国防高级研究计划局**（DARPA）资助下，Vinton Cerf 和 Robert Kahn 完成了互连网络的开拓性工作，实质上创造了"网络的网络" [Cerf 1974]；"互联网互连"（internetting）一词正是为描述这项工作而造出来的。
 

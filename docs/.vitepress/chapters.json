@@ -7,7 +7,7 @@
     "pages": [
       {
         "href": "/ch01/01-what.html",
-        "title": "计算机网络与因特网"
+        "title": "1.1　什么是因特网"
       },
       {
         "href": "/ch01/02-edge.html",
@@ -51,7 +51,7 @@
     "pages": [
       {
         "href": "/ch02/01-principles.html",
-        "title": "应用层"
+        "title": "2.1　网络应用的原理"
       },
       {
         "href": "/ch02/02-http.html",
@@ -95,7 +95,7 @@
     "pages": [
       {
         "href": "/ch03/01-intro.html",
-        "title": "运输层"
+        "title": "3.1　引言与运输层服务"
       },
       {
         "href": "/ch03/02-mux.html",
@@ -135,7 +135,7 @@
       },
       {
         "href": "/ch03/08-fairness-quic.html",
-        "title": "3.7.4　公平性"
+        "title": "3.8　运输层功能的演进"
       },
       {
         "href": "/ch03/09-exercises.html",
@@ -151,7 +151,7 @@
     "pages": [
       {
         "href": "/ch04/01-overview.html",
-        "title": "网络层：数据平面"
+        "title": "4.1　网络层概述"
       },
       {
         "href": "/ch04/02-router.html",

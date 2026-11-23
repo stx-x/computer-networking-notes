@@ -512,6 +512,11 @@ def render_block_call(name: str, args: str, body: str, ctx: dict):
         raw = (body or "").strip()
         return "\n\n```text\n" + raw + "\n```\n\n"
     if name in ("block", "box", "align", "stack", "grid", "columns"):
+        mt = (args or "").find("table(")
+        if mt >= 0:
+            k = find_match(args, mt + 5, "(", ")")
+            ncol, rows = parse_table(args[mt + 6:k], ctx)
+            return emit_table(ncol, rows, inline(body, ctx) if body else "", ctx)
         content = _block_content(args, body)
         if content is None:
             return None
@@ -550,6 +555,23 @@ def render_block_call(name: str, args: str, body: str, ctx: dict):
     return None
 
 
+
+def _last_bracket(s: str):
+    """取字符串中最后一个顶层 [...] 的内容（figure 的正文常在 align/block 的花括号里）。"""
+    best = None
+    i = 0
+    while i < len(s):
+        if s[i] == "[":
+            k = find_match(s, i, "[", "]")
+            if k < 0:
+                break
+            best = (i, k)
+            i = k + 1
+        else:
+            i += 1
+    return s[best[0] + 1:best[1]] if best else None
+
+
 def render_figure(args: str, body: str, ctx: dict) -> str:
     cap = ""
     mcap = re.search(r"caption:\s*\[", args)
@@ -560,11 +582,26 @@ def render_figure(args: str, body: str, ctx: dict) -> str:
     if img:
         path = os.path.splitext(os.path.basename(img.group(1)))[0] + ".webp"
         return f'\n\n<Figure src="{ctx["slug"]}/{path}" caption="{attr_text(inline(cap, ctx))}" />\n\n'
+    mlist = re.search(r'listing\(\s*"((?:[^"\\]|\\.)*)"', args)
+    if mlist:
+        code = mlist.group(1).replace('\\n', '\n').replace('\\"', '"')
+        return (f'\n\n<p class="tbl-cap">{inline(cap, ctx)}</p>\n\n'
+                f"```text\n{code}\n```\n\n")
+
     mt = args.find("table(")
     if mt >= 0:
         k = find_match(args, mt + 5, "(", ")")
         ncol, rows = parse_table(args[mt + 6:k], ctx)
         return emit_table(ncol, rows, inline(cap, ctx), ctx)
+
+    # 纯文本框：figure(align(left, block(...[内容]...)), caption: [..])
+    content = _last_bracket(args[:mcap.start()] if mcap else args)
+    if content and len(re.findall(r"[\u4e00-\u9fff]", content)) > 10:
+        content = re.sub(r"(?m)^\s*set .*$", "", content)
+        inner = convert_blocks(content, ctx)
+        if inner.strip():
+            return (f'\n\n<BoxCard caption="{attr_text(inline(cap, ctx))}">\n\n'
+                    f"{inner}\n</BoxCard>\n\n")
     return ""
 
 
@@ -581,7 +618,7 @@ def chapter_files(dirpath: str):
 
 def section_meta(path: str):
     s = open(path).read()
-    m = re.search(r"^=+\s+(.+)$", s, flags=re.M)
+    m = re.search(r"^==\s+(.+)$", s, flags=re.M) or re.search(r"^=+\s+(.+)$", s, flags=re.M)
     title = m.group(1).strip() if m else os.path.basename(path)
     num = ""
     mm = re.match(r"([\d.]+)\s*", title)
@@ -620,6 +657,10 @@ def main():
             stem = os.path.splitext(os.path.basename(fp))[0]
             sec_title, sec_num = section_meta(fp)
             src = strip_lets(open(fp).read())
+            # 章标题（一级标题）由侧边栏承担，正文里删掉，避免和节标题抢 h1
+            mtitle = re.search(r"^=\s+.*\n?", src, flags=re.M)
+            if mtitle:
+                src = src[:mtitle.start()] + src[mtitle.end():]
             # 若正文前有引言段，把首个 == 标题提到最前
             mfirst = re.search(r"^==\s+.*$", src, flags=re.M)
             if mfirst:
@@ -627,7 +668,6 @@ def main():
                 if re.search(r"[\u4e00-\u9fff]", re.sub(r"#.*", "", head)):
                     src = mfirst.group(0) + "\n\n" + head.strip() + "\n\n" + src[mfirst.end():]
             md = convert_blocks(src, {"slug": slug})
-            md = md.replace("# 计算机网络", "")
             front = (
                 "---\n"
                 f"title: {sec_title}\n"
