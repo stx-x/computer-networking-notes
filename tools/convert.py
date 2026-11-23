@@ -408,6 +408,8 @@ def convert_blocks(src: str, ctx: dict) -> str:
     para: list[str] = []
     in_list = False
     levels = [len(m.group(1)) for m in re.finditer(r"^(=+)\s", src, flags=re.M)]
+    indents = [len(m.group(1)) for m in re.finditer(r"(?m)^([ \t]*)[-+] ", src)]
+    list_base = min(indents) if indents else 0
     base = (min(levels) - 1) if levels else 1
 
     def flush():
@@ -433,13 +435,16 @@ def convert_blocks(src: str, ctx: dict) -> str:
                 out.append("\n" + "#" * min(mdlevel, 6) + " " + title + "\n\n")
                 i += m.end()
                 continue
-        if c in "-+" and (i == 0 or src[i - 1] == "\n") and src[i + 1:i + 2] == " ":
+        if c in "-+" and src[i + 1:i + 2] == " " and (
+                src[i - 1] == "\n" or src[src.rfind("\n", 0, i) + 1:i].strip() == ""):
             if para and "".join(para).strip():
                 flush()
             j = src.find("\n", i)
             j = n if j < 0 else j
             item = src[i + 2:j]
-            out.append(("- " if c == "-" else "1. ") + inline(item.strip(), ctx) + "\n")
+            ls = src.rfind("\n", 0, i) + 1
+            indent = "  " * max(0, (len(src[ls:i]) - list_base) // 2)
+            out.append(indent + ("- " if c == "-" else "1. ") + inline(item.strip(), ctx) + "\n")
             in_list = True
             i = j + 1
             continue
