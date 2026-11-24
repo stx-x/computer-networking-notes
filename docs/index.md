@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: 从第 1 章读起
-      link: /ch01.html
+      link: /ch01/
     - theme: alt
       text: 看看第 8 章
-      link: /ch08.html
+      link: /ch08/
 
 features:
   - title: 逐节对译，不是摘要
@@ -35,7 +35,7 @@ import { withBase } from 'vitepress'
 
 ## 八章正文
 
-按原书顺序排列，每章一个整页，右侧目录可直接跳节。
+按原书顺序排列，每章按小节分页，右侧目录可直接跳小节。
 
 <HomeChapterGrid />
 

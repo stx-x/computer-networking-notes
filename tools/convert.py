@@ -679,6 +679,29 @@ def section_meta(path: str):
     return title, num
 
 
+NAMED = [("小结", "summary"), ("复习题", "exercises"), ("习题", "exercises"),
+         ("附录 A", "appendix-a"), ("附录 B", "appendix-b")]
+
+
+def sec_slug(title: str, idx: int) -> str:
+    t = title.strip()
+    m = re.match(r"(\d+(?:\.\d+)*)", t)
+    if m:
+        return m.group(1).replace(".", "-")
+    for key, name in NAMED:
+        if key in t:
+            return name
+    return f"sec-{idx:02d}"
+
+
+def demote(md: str) -> str:
+    """把 md 中的标题整体上提一级（## -> #，### -> ##）。"""
+    def rep(m):
+        lv = max(1, len(m.group(1)) - 1)
+        return "#" * lv + " "
+    return re.sub(r"(?m)^(#{1,5}) ", rep, md)
+
+
 def main():
     man = []
     for slug, dirname, title, blurb, num in CHAPTERS:
@@ -702,49 +725,83 @@ def main():
                     im = im.resize((1500, round(h * 1500 / w)), Image.LANCZOS)
                 im.save(dst, "WEBP", quality=88, method=6)
 
-        parts_md, secs = [], []
+        parts, per_file = [], []
         for fp in chapter_files(d):
             src = strip_lets(open(fp).read())
-            # 章标题（一级标题）由页面 <ChapterHero> 承担
             src = re.sub(r"^=\s+.*\n?", "", src, flags=re.M)
             md = convert_blocks(src, {"slug": slug})
             blocks = md.split("```")
             for k in range(0, len(blocks), 2):
                 blocks[k] = blocks[k].replace("#linebreak()", "<br>")
             md = "```".join(blocks).strip()
-            if md:
-                parts_md.append(md)
-            n_sec = len(re.findall(r"(?m)^## ", md))
-            secs.append(n_sec)
+            n = len(re.findall(r"(?m)^## ", md))
+            per_file.append((os.path.splitext(os.path.basename(fp))[0], n))
+            parts.append(md)
 
-        body = "\n\n".join(parts_md)
-        nsec = len(re.findall(r"(?m)^## ", body))
-        front = (
+        body = "\n\n".join(p for p in parts if p)
+        chunks = re.split(r"(?m)^(?=## )", body)
+        intro = chunks[0].strip()
+        raw_sections = [c for c in chunks[1:] if c.strip()]
+
+        outdir = os.path.join(DOCS, slug)
+        os.makedirs(outdir, exist_ok=True)
+        sections, used = [], set()
+        for i, chunk in enumerate(raw_sections, 1):
+            m = re.match(r"## (.+)", chunk)
+            sec_title = m.group(1).strip() if m else f"第 {i} 节"
+            base = sec_slug(sec_title, i)
+            sid, k = base, 2
+            while sid in used:
+                sid = f"{base}-{k}"
+                k += 1
+            used.add(sid)
+            md = demote(chunk).strip()
+            front = ("---\n" f"title: {sec_title}\n" "outline: [2, 3]\n" "---\n\n")
+            open(os.path.join(outdir, sid + ".md"), "w").write(front + md + "\n")
+            sections.append({"slug": sid, "title": sec_title, "href": f"/{slug}/{sid}.html"})
+
+        # 章节首页：刊头 + 导语 + 小节列表
+        links = "\n".join(
+            f'<ChapterLink href="{s["href"]}" title="{attr_text(s["title"])}" />'
+            for s in sections
+        )
+        idx = (
             "---\n"
             f"title: 第 {num} 章　{title}\n"
-            "outline: [2, 3]\n"
+            "outline: false\n"
             "---\n\n"
-            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{nsec}" />\n\n'
+            f'<ChapterHero num="{num}" title="{title}" blurb="{blurb}" pages="{len(sections)}" />\n\n'
+            + (intro + "\n\n" if intro else "")
+            + "## 本章目录\n\n" + links + "\n"
         )
-        # 旧的「一节一页」URL 重定向到章页（避免历史链接 404）
+        open(os.path.join(outdir, "index.md"), "w").write(idx)
+
+        # 旧的「一节一页」URL -> 该文件首个所在小节
         legacy = os.path.join(PUB, slug)
         os.makedirs(legacy, exist_ok=True)
-        for fp in chapter_files(d):
-            stem = os.path.splitext(os.path.basename(fp))[0]
-            stub = os.path.join(legacy, stem + ".html")
-            open(stub, "w").write(
-                "<!doctype html><meta charset=\"utf-8\">"
-                f"<title>跳转…</title><meta http-equiv=\"refresh\" "
-                f"content=\"0; url=../../{slug}.html\">"
-                f"<link rel=\"canonical\" href=\"../../{slug}.html\">"
-                "<p>页面已合并到整章页面，"
-                f"<a href=\"../../{slug}.html\">继续阅读</a>。</p>")
+        for f in os.listdir(legacy):
+            if f.endswith(".html"):
+                os.remove(os.path.join(legacy, f))
+        pos = 0
+        for stem, n in per_file:
+            target = sections[pos]["href"] if pos < len(sections) else f"/{slug}/"
+            open(os.path.join(legacy, stem + ".html"), "w").write(
+                "<!doctype html><meta charset=\"utf-8\"><title>跳转…</title>"
+                f"<meta http-equiv=\"refresh\" content=\"0; url=..{target.replace('/', '/', 1)}\">"
+                f"<link rel=\"canonical\" href=\"..{target}\">"
+                f"<p>页面已按小节拆分，<a href=\"..{target}\">继续阅读</a>。</p>")
+            pos += n
 
-        out = os.path.join(DOCS, slug + ".md")
-        open(out, "w").write(front + body + "\n")
+        # 上一版「整章单页」URL（/chN.html）-> 章首页
+        open(os.path.join(PUB, slug + ".html"), "w").write(
+            "<!doctype html><meta charset=\"utf-8\"><title>跳转…</title>"
+            f"<meta http-equiv=\"refresh\" content=\"0; url=./{slug}/\">"
+            f"<link rel=\"canonical\" href=\"./{slug}/\">"
+            f"<p>页面已按小节拆分，<a href=\"./{slug}/\">进入本章</a>。</p>")
+
         man.append({"slug": slug, "num": num, "title": title, "blurb": blurb,
-                    "sections": nsec})
-        print(f"{slug}: {len(parts_md)} parts -> {slug}.md, {len(os.listdir(dst_figs))} figs")
+                    "count": len(sections), "sections": sections})
+        print(f"{slug}: {len(sections)} sections")
 
     os.makedirs(os.path.join(DOCS, ".vitepress"), exist_ok=True)
     json.dump(man, open(os.path.join(DOCS, ".vitepress", "chapters.json"), "w"),

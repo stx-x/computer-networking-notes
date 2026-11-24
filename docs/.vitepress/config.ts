@@ -5,7 +5,9 @@ const repoBase = process.env.DOCS_BASE || '/'
 
 const sidebar = chapters.map((c: any) => ({
   text: `第 ${c.num} 章　${c.title}`,
-  link: `/${c.slug}.html`
+  link: `/${c.slug}/`,
+  collapsed: true,
+  items: c.sections.map((s: any) => ({ text: s.title, link: s.href }))
 }))
 
 export default defineConfig({
@@ -40,7 +42,7 @@ export default defineConfig({
         text: '章节目录',
         items: chapters.map((c: any) => ({
           text: `第 ${c.num} 章　${c.title}`,
-          link: `/${c.slug}.html`
+          link: `/${c.slug}/`
         }))
       },
       { text: '关于', link: '/about' }

@@ -4,55 +4,501 @@
     "num": "01",
     "title": "计算机网络与因特网",
     "blurb": "从分组交换、排队延迟到 ISP 分层",
-    "sections": 11
+    "count": 11,
+    "sections": [
+      {
+        "slug": "1-1",
+        "title": "1.1　什么是因特网",
+        "href": "/ch01/1-1.html"
+      },
+      {
+        "slug": "1-2",
+        "title": "1.2　网络边缘",
+        "href": "/ch01/1-2.html"
+      },
+      {
+        "slug": "1-3",
+        "title": "1.3　网络核心",
+        "href": "/ch01/1-3.html"
+      },
+      {
+        "slug": "1-4",
+        "title": "1.4　分组交换网中的时延、丢包与吞吐量",
+        "href": "/ch01/1-4.html"
+      },
+      {
+        "slug": "1-5",
+        "title": "1.5　协议层次及其服务模型",
+        "href": "/ch01/1-5.html"
+      },
+      {
+        "slug": "1-6",
+        "title": "1.6　面对攻击的网络",
+        "href": "/ch01/1-6.html"
+      },
+      {
+        "slug": "1-7",
+        "title": "1.7　计算机网络与因特网的历史",
+        "href": "/ch01/1-7.html"
+      },
+      {
+        "slug": "1-8",
+        "title": "1.8　小结",
+        "href": "/ch01/1-8.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "习题",
+        "href": "/ch01/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch01/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　符号与公式速查",
+        "href": "/ch01/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch02",
     "num": "02",
     "title": "应用层",
     "blurb": "HTTP/2、DNS、CDN 与套接字编程",
-    "sections": 9
+    "count": 9,
+    "sections": [
+      {
+        "slug": "2-1",
+        "title": "2.1　网络应用的原理",
+        "href": "/ch02/2-1.html"
+      },
+      {
+        "slug": "2-2",
+        "title": "2.2　Web 与 HTTP",
+        "href": "/ch02/2-2.html"
+      },
+      {
+        "slug": "2-3",
+        "title": "2.3　因特网中的电子邮件",
+        "href": "/ch02/2-3.html"
+      },
+      {
+        "slug": "2-4",
+        "title": "2.4　DNS：因特网的目录服务",
+        "href": "/ch02/2-4.html"
+      },
+      {
+        "slug": "2-5",
+        "title": "2.5　视频流与内容分发网",
+        "href": "/ch02/2-5.html"
+      },
+      {
+        "slug": "2-6",
+        "title": "2.6　套接字编程：创建网络应用",
+        "href": "/ch02/2-6.html"
+      },
+      {
+        "slug": "2-7",
+        "title": "2.7　小结",
+        "href": "/ch02/2-7.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch02/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　常用端口与报文速查",
+        "href": "/ch02/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch03",
     "num": "03",
     "title": "运输层",
     "blurb": "rdt 状态机、TCP 拥塞控制与 QUIC",
-    "sections": 12
+    "count": 12,
+    "sections": [
+      {
+        "slug": "3-1",
+        "title": "3.1　引言与运输层服务",
+        "href": "/ch03/3-1.html"
+      },
+      {
+        "slug": "3-2",
+        "title": "3.2　多路复用与多路分解",
+        "href": "/ch03/3-2.html"
+      },
+      {
+        "slug": "3-3",
+        "title": "3.3　无连接运输：UDP",
+        "href": "/ch03/3-3.html"
+      },
+      {
+        "slug": "3-4",
+        "title": "3.4　可靠数据传输原理",
+        "href": "/ch03/3-4.html"
+      },
+      {
+        "slug": "3-5",
+        "title": "3.5　面向连接的运输：TCP",
+        "href": "/ch03/3-5.html"
+      },
+      {
+        "slug": "3-6",
+        "title": "3.6　拥塞控制原理",
+        "href": "/ch03/3-6.html"
+      },
+      {
+        "slug": "3-7",
+        "title": "3.7　TCP 拥塞控制",
+        "href": "/ch03/3-7.html"
+      },
+      {
+        "slug": "3-8",
+        "title": "3.8　运输层功能的演进",
+        "href": "/ch03/3-8.html"
+      },
+      {
+        "slug": "3-9",
+        "title": "3.9　小结",
+        "href": "/ch03/3-9.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "习题",
+        "href": "/ch03/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch03/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　符号与公式速查",
+        "href": "/ch03/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch04",
     "num": "04",
     "title": "网络层：数据平面",
     "blurb": "转发、SDN 通用转发与调度算法",
-    "sections": 9
+    "count": 9,
+    "sections": [
+      {
+        "slug": "4-1",
+        "title": "4.1　网络层概述",
+        "href": "/ch04/4-1.html"
+      },
+      {
+        "slug": "4-2",
+        "title": "4.2　路由器内部",
+        "href": "/ch04/4-2.html"
+      },
+      {
+        "slug": "4-3",
+        "title": "4.3　网际协议（IP）：IPv4、编址、IPv6 及其他",
+        "href": "/ch04/4-3.html"
+      },
+      {
+        "slug": "4-4",
+        "title": "4.4　广义转发与 SDN",
+        "href": "/ch04/4-4.html"
+      },
+      {
+        "slug": "4-5",
+        "title": "4.5　因特网的体系结构原则",
+        "href": "/ch04/4-5.html"
+      },
+      {
+        "slug": "4-6",
+        "title": "4.6　小结",
+        "href": "/ch04/4-6.html"
+      },
+      {
+        "slug": "sec-07",
+        "title": "本章要点自测",
+        "href": "/ch04/sec-07.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch04/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　常用数值与字段速查",
+        "href": "/ch04/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch05",
     "num": "05",
     "title": "网络层：控制平面",
     "blurb": "LS/DV、OSPF、BGP 与 SDN 控制器",
-    "sections": 11
+    "count": 11,
+    "sections": [
+      {
+        "slug": "5-1",
+        "title": "5.1　导论",
+        "href": "/ch05/5-1.html"
+      },
+      {
+        "slug": "5-2",
+        "title": "5.2　路由算法",
+        "href": "/ch05/5-2.html"
+      },
+      {
+        "slug": "5-3",
+        "title": "5.3　因特网中的自治系统内部选路：OSPF",
+        "href": "/ch05/5-3.html"
+      },
+      {
+        "slug": "5-4",
+        "title": "5.4　ISP 之间的选路：BGP",
+        "href": "/ch05/5-4.html"
+      },
+      {
+        "slug": "5-5",
+        "title": "5.5　SDN 控制平面",
+        "href": "/ch05/5-5.html"
+      },
+      {
+        "slug": "5-6",
+        "title": "5.6　ICMP：因特网控制报文协议",
+        "href": "/ch05/5-6.html"
+      },
+      {
+        "slug": "5-7",
+        "title": "5.7　网络管理与 SNMP、NETCONF/YANG",
+        "href": "/ch05/5-7.html"
+      },
+      {
+        "slug": "5-8",
+        "title": "5.8　小结",
+        "href": "/ch05/5-8.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "复习题",
+        "href": "/ch05/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch05/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　协议与数值速查",
+        "href": "/ch05/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch06",
     "num": "06",
     "title": "链路层与局域网",
     "blurb": "CRC、多路访问、ARP、交换机与 VLAN",
-    "sections": 11
+    "count": 11,
+    "sections": [
+      {
+        "slug": "6-1",
+        "title": "6.1　链路层导论",
+        "href": "/ch06/6-1.html"
+      },
+      {
+        "slug": "6-2",
+        "title": "6.2　差错检测与纠正技术",
+        "href": "/ch06/6-2.html"
+      },
+      {
+        "slug": "6-3",
+        "title": "6.3　多路访问链路与协议",
+        "href": "/ch06/6-3.html"
+      },
+      {
+        "slug": "6-4",
+        "title": "6.4　交换式局域网",
+        "href": "/ch06/6-4.html"
+      },
+      {
+        "slug": "6-5",
+        "title": "6.5　链路虚拟化：把网络当作链路层",
+        "href": "/ch06/6-5.html"
+      },
+      {
+        "slug": "6-6",
+        "title": "6.6　数据中心网络",
+        "href": "/ch06/6-6.html"
+      },
+      {
+        "slug": "6-7",
+        "title": "6.7　回顾：一次 Web 页面请求的一生",
+        "href": "/ch06/6-7.html"
+      },
+      {
+        "slug": "6-8",
+        "title": "6.8　小结",
+        "href": "/ch06/6-8.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "复习题",
+        "href": "/ch06/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch06/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　数值与帧格式速查",
+        "href": "/ch06/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch07",
     "num": "07",
     "title": "无线与移动网络",
     "blurb": "802.11、5G RAN 与移动性管理",
-    "sections": 10
+    "count": 10,
+    "sections": [
+      {
+        "slug": "7-1",
+        "title": "7.1　导论",
+        "href": "/ch07/7-1.html"
+      },
+      {
+        "slug": "7-2",
+        "title": "7.2　无线网络中的物理层",
+        "href": "/ch07/7-2.html"
+      },
+      {
+        "slug": "7-3",
+        "title": "7.3　无线接入网",
+        "href": "/ch07/7-3.html"
+      },
+      {
+        "slug": "7-4",
+        "title": "7.4　无线核心网",
+        "href": "/ch07/7-4.html"
+      },
+      {
+        "slug": "7-5",
+        "title": "7.5　移动性",
+        "href": "/ch07/7-5.html"
+      },
+      {
+        "slug": "7-6",
+        "title": "7.6　蓝牙、卫星与 IoT 无线网络",
+        "href": "/ch07/7-6.html"
+      },
+      {
+        "slug": "7-7",
+        "title": "7.7　小结",
+        "href": "/ch07/7-7.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "复习题",
+        "href": "/ch07/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch07/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　数值与公式速查",
+        "href": "/ch07/appendix-b.html"
+      }
+    ]
   },
   {
     "slug": "ch08",
     "num": "08",
     "title": "计算机网络安全",
     "blurb": "密码学、TLS 1.3、IPsec 与防火墙",
-    "sections": 13
+    "count": 13,
+    "sections": [
+      {
+        "slug": "8-1",
+        "title": "8.1　什么是网络安全？",
+        "href": "/ch08/8-1.html"
+      },
+      {
+        "slug": "8-2",
+        "title": "8.2　密码学原理",
+        "href": "/ch08/8-2.html"
+      },
+      {
+        "slug": "8-3",
+        "title": "8.3　报文完整性与数字签名",
+        "href": "/ch08/8-3.html"
+      },
+      {
+        "slug": "8-4",
+        "title": "8.4　端点鉴别",
+        "href": "/ch08/8-4.html"
+      },
+      {
+        "slug": "8-5",
+        "title": "8.5　保护电子邮件",
+        "href": "/ch08/8-5.html"
+      },
+      {
+        "slug": "8-6",
+        "title": "8.6　保护 TCP 与 HTTP 连接：TLS",
+        "href": "/ch08/8-6.html"
+      },
+      {
+        "slug": "8-7",
+        "title": "8.7　网络层安全：IPsec 与虚拟专用网",
+        "href": "/ch08/8-7.html"
+      },
+      {
+        "slug": "8-8",
+        "title": "8.8　保护无线局域网与 4G/5G 蜂窝网",
+        "href": "/ch08/8-8.html"
+      },
+      {
+        "slug": "8-9",
+        "title": "8.9　运行安全：防火墙与入侵检测系统",
+        "href": "/ch08/8-9.html"
+      },
+      {
+        "slug": "8-10",
+        "title": "8.10　小结",
+        "href": "/ch08/8-10.html"
+      },
+      {
+        "slug": "exercises",
+        "title": "复习题",
+        "href": "/ch08/exercises.html"
+      },
+      {
+        "slug": "appendix-a",
+        "title": "附录 A　术语对照表",
+        "href": "/ch08/appendix-a.html"
+      },
+      {
+        "slug": "appendix-b",
+        "title": "附录 B　数值与公式速查",
+        "href": "/ch08/appendix-b.html"
+      }
+    ]
   }
 ]
