@@ -28,7 +28,7 @@
     'Microsoft YaHei', system-ui, sans-serif;
   --vp-font-family-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
 
-  --vp-sidebar-width: 288px;
+  --vp-sidebar-width: 264px;
 
   /* 自定义块 */
   --vp-custom-block-tip-border: transparent;
@@ -84,20 +84,20 @@
 
 /* ---------------------------------------------------------- 正文 */
 .vp-doc {
-  font-size: 17px;
-  line-height: 1.88;
+  font-size: 17.5px;
+  line-height: 1.98;
   color: var(--vp-c-text-1);
   letter-spacing: 0.006em;
 }
 
 .vp-doc p,
 .vp-doc li {
-  font-size: 17px;
-  line-height: 1.88;
+  font-size: 17.5px;
+  line-height: 1.98;
 }
 
 .vp-doc p {
-  margin: 18px 0;
+  margin: 1.15em 0;
 }
 
 /* 首行不缩进（网页惯例），但保留段间距 */
@@ -123,8 +123,8 @@
   line-height: 1.35;
   font-weight: 700;
   letter-spacing: -0.018em;
-  margin: 56px 0 18px;
-  padding-top: 26px;
+  margin: 68px 0 22px;
+  padding-top: 30px;
   border-top: 1px solid var(--vp-c-divider);
 }
 
@@ -132,7 +132,7 @@
   font-size: 19.5px;
   font-weight: 700;
   letter-spacing: -0.012em;
-  margin: 40px 0 12px;
+  margin: 48px 0 14px;
 }
 
 .vp-doc h3::before {
@@ -178,7 +178,7 @@
   margin: 14px 0;
 }
 .vp-doc li + li {
-  margin-top: 6px;
+  margin-top: 10px;
 }
 .vp-doc li > ul,
 .vp-doc li > ol {
@@ -596,4 +596,162 @@ mjx-container[display='true'] {
 /* 长页 hero 收紧一点 */
 .chapter-hero {
   padding: 30px 0 26px !important;
+}
+
+/* ================= 宽屏阅读：两侧拉开、正文加宽 ================= */
+@media (min-width: 960px) {
+  .VPDoc .container {
+    max-width: none;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .VPDoc .content-container {
+    max-width: 760px;
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .VPDoc .content {
+    max-width: 760px;
+  }
+  .VPDoc.has-aside .content-container {
+    max-width: 760px;
+  }
+  .VPDoc .aside {
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .VPDocAsideOutline .outline-link {
+    font-size: 12.8px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .VPDoc .content-container {
+    max-width: 820px;
+    margin-left: auto;
+  }
+}
+
+/* 侧栏收起 */
+html.sb-hidden .VPSidebar {
+  transform: translateX(-100%) !important;
+}
+html.sb-hidden .VPContent.has-sidebar {
+  padding-left: 0 !important;
+}
+html.sb-hidden .VPNavBar.has-sidebar .title {
+  width: auto !important;
+  padding-left: 24px !important;
+  border-bottom: none !important;
+}
+html.sb-hidden .VPNavBar.has-sidebar .content {
+  padding-left: 32px !important;
+}
+html.sb-hidden .VPNavBar.has-sidebar .divider {
+  display: none;
+}
+
+.sb-btn {
+  position: fixed;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(15, 18, 25, 0.07);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.sb-btn:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg-soft);
+}
+.sb-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.sb-btn--in {
+  left: 22px;
+  bottom: 16px;
+  height: auto;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--vp-c-text-3);
+  font-size: 12.5px;
+}
+.sb-btn--in:hover {
+  background: transparent;
+  color: var(--vp-c-brand-1);
+}
+.VPSidebar {
+  padding-bottom: 52px !important;
+}
+.sb-btn--out {
+  left: 16px;
+  top: calc(var(--vp-nav-height) + 14px);
+  display: none;
+}
+html.sb-hidden .sb-btn--in {
+  display: none;
+}
+html.sb-hidden .sb-btn--out {
+  display: inline-flex;
+}
+@media (max-width: 959px) {
+  .sb-btn {
+    display: none !important;
+  }
+}
+
+/* ================= 覆盖 VitePress 作用域样式（宽度） ================= */
+@media (min-width: 960px) {
+  .VPDoc .container {
+    max-width: none !important;
+  }
+  .VPDoc .content,
+  .VPDoc .content-container,
+  .VPDoc.has-aside .content-container {
+    max-width: 780px !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+  .VPDoc .aside {
+    width: 272px;
+    max-width: 272px !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}
+@media (min-width: 1680px) {
+  .VPDoc .content,
+  .VPDoc .content-container,
+  .VPDoc.has-aside .content-container {
+    max-width: 840px !important;
+    margin-left: auto !important;
+  }
+}
+
+/* 右侧目录更透气 */
+.VPDocAsideOutline .outline-item {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.VPDocAsideOutline .outline-link {
+  font-size: 12.6px !important;
+  line-height: 1.55 !important;
+}
+.VPDocAside .outline-title {
+  margin-bottom: 10px;
 }

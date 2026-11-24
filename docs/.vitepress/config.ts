@@ -4,7 +4,7 @@ import chapters from './chapters.json'
 const repoBase = process.env.DOCS_BASE || '/'
 
 const sidebar = chapters.map((c: any) => ({
-  text: `第 ${c.num} 章　${c.title}`,
+  text: `${c.num}　${c.title}`,
   link: `/${c.slug}/`,
   collapsed: true,
   items: c.sections.map((s: any) => ({ text: s.title, link: s.href }))
