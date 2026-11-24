@@ -12,9 +12,9 @@ site/
 │  │  ├─ config.ts          站点配置（导航 / 侧边栏 / 搜索）
 │  │  ├─ chapters.json      由转换脚本生成：章节目录与页码
 │  │  └─ theme/             自定义主题（排版 / 组件 / 配色）
-│  ├─ ch01.md … ch08.md     一章一个整页（右侧目录按 h2/h3 生成）
+│  ├─ ch01/ … ch08/         一章一目录：index.md（导读）+ 每小节一个 .md
 │  ├─ public/figs/ch0x/     插图（WebP，从各章 figs/ 转换）
-│  ├─ public/ch0x/*.html    旧「一节一页」URL 的重定向桩
+│  ├─ public/ch0x/*.html    旧 URL 重定向桩（按源文件维度 + 整章单页维度）
 │  ├─ index.md              首页
 │  └─ about.md
 ├─ tools/
@@ -41,7 +41,9 @@ npm run preview
 python3 site/tools/convert.py
 ```
 
-脚本会重写 `docs/ch0x.md`、转换插图、刷新 `docs/.vitepress/chapters.json`，并生成旧链接的跳转页。
+脚本会按 `##` 小节切分并重写 `docs/ch0x/*.md`、转换插图、刷新 `chapters.json`（侧边栏依赖），
+并生成旧链接的跳转页。**切分依据是小节标题，不是源文件**——源文件与小节并非一一对应
+（一个文件里可能有多节，一节也可能跨文件），按文件切会切出错误的边界。
 依赖只有 Python 3 标准库。
 
 转换器支持的构造：`==` 标题、`-`/`+` 列表、`*粗*`/`_斜_`、`$数学$`、`#fig()`、`#figure(…table(…))`、
@@ -60,7 +62,7 @@ python3 site/tools/convert.py
 ## 设计说明
 
 - 字体：Inter（拉丁）+ 苹方 / HarmonyOS Sans（中文），等宽用 JetBrains Mono。
-- 一章一页连续滚动，右侧目录（h2/h3）常驻，顶部 2px 阅读进度条。
+- 一节一页；侧边栏按章折叠，展开后列出本章全部小节；右侧目录（h2/h3）标注页内小节。
 - 正文 17px / 1.88 行高 / 716px 栏宽，接近书籍的单栏阅读宽度。
 - 配色：靛蓝 `#4f46e5` → 青 `#06b6d4` 渐变作为强调色，深浅色双主题。
 - 图片统一白底圆角，保证深色模式下插图仍可读。
